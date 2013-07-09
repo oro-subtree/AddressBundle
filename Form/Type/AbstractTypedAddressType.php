@@ -4,7 +4,7 @@ namespace Oro\Bundle\AddressBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
-class AddressTypedType extends AddressType
+abstract class AbstractTypedAddressType extends AbstractAddressType
 {
     /**
      * {@inheritdoc}
@@ -12,15 +12,17 @@ class AddressTypedType extends AddressType
     public function addEntityFields(FormBuilderInterface $builder)
     {
         $builder->add(
-            'type',
-            'entity',
+            'types',
+            'translatable_entity',
             array(
                 'class' => 'OroAddressBundle:AddressType',
-                'property' => 'type',
+                'property' => 'label',
                 'required' => false,
-                'empty_value' => 'Choose type...'
+                'multiple' => true,
+                'expanded' => true,
             )
         );
+
         $builder->add(
             'primary',
             'checkbox',
@@ -29,14 +31,7 @@ class AddressTypedType extends AddressType
                 'required' => false
             )
         );
-        parent::addEntityFields($builder);
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'oro_address_typed';
+        parent::addEntityFields($builder);
     }
 }
